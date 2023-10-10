@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse, JsonResponse, Http404
 import sqlite3
 
 # Create your views here.
@@ -91,3 +91,44 @@ def api_aeropuertos(request):
         aero.append(d)
     f.close()
     return JsonResponse(aero, safe=False)
+
+# ____ Separar codigo HTML de la función Python pero no podemos
+#      Integrar datos externos al código HTML
+
+def index3(request):
+    f = open("miapp/index.html", encoding="utf-8")
+    response = f.read()
+    f.close()
+    return HttpResponse(response)
+
+# ____ DTL
+
+def index4(request):
+    ctx = {
+            "nombre": "Juan Pedro Gonzalez",
+            "cursos": 5,
+            "curso_actual": {"nombre": "Python & Django", "turno": "mañana", "profesor": "Mario Bravo"},
+            "cursos_previos": ["Java", "HTML", "CSS", ".Net", "Agile", "Xtreme Programming"]
+           }
+    return render(request, "miapp/index.html", ctx)
+
+def cursos2(request):
+    conn = sqlite3.connect("cursos.db")
+    cursor = conn.cursor()
+    cursor.execute("SELECT nombre, inscriptos FROM cursos")
+    cursos = cursor.fetchall()
+    conn.close()
+    ctx = {"cursos": cursos}
+    return render(request, "miapp/cursos.html", ctx)
+
+def curso_nombre(request, nombre_curso):
+    conn = sqlite3.connect("cursos.db")
+    cursor = conn.cursor()
+    cursor.execute("SELECT nombre, inscriptos FROM cursos WHERE nombre=?", [nombre_curso])
+    curso = cursor.fetchone()
+    if curso is None:
+        raise Http404
+    
+    conn.close()
+    ctx = {"curso": curso}
+    return render(request, "miapp/un_curso.html", ctx)

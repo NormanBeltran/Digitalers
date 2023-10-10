@@ -1,0 +1,31 @@
+{% extends "miapp/base.html" %}
+{% load static %}
+
+{% block title %}
+Cursos desde BD
+{% endblock title %}
+
+{% block main %}    
+<img src="{% static 'miapp/django.png' %}" alt="" width="200px" height="150px">
+<h2>Detalle del curso {{ curso.0 }}</h2>
+<h3>Hoy es {% now "D M Y H T" %}</h3>
+<table style="border: 1px solid">
+    <thead>
+        <tr>
+            <th>Curso</th>
+            <th>Inscriptos</th>
+        </tr>
+    </thead>
+
+    <tr>
+        <td>
+            {{ curso.0|upper }}
+        </td>
+        <td>
+            {{ curso.1 }}
+        </td>
+    </tr>        
+
+</table>
+
+{% endblock main %}

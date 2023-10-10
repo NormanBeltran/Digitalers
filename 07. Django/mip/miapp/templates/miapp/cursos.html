@@ -1,0 +1,30 @@
+{% extends "miapp/base.html" %}
+{% load static %}
+
+{% block title %}
+Cursos desde BD
+{% endblock title %}
+
+{% block main %}    
+<img src="{% static 'miapp/django.png' %}" alt="" width="200px" height="150px">
+<h2>Detalle de todos los cursos de la BD</h2>
+<table class="tabla-cursos">
+    <thead>
+        <tr>
+            <th>Curso</th>
+            <th>Inscriptos</th>
+        </tr>
+    </thead>
+    {% for nombre, inscriptos in cursos  %}
+    <tr>
+        <td>
+            {{ nombre }}
+        </td>
+        <td>
+            {{ inscriptos }}
+        </td>
+    </tr>        
+    {% endfor %}
+</table>
+<a href="{% url 'aeropuertos' %}">Ver tabla de Aeropuertos</a>    
+{% endblock main %}

@@ -1,0 +1,29 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        
+        {% block title %}
+            Aplicación Django 
+        {% endblock title %}
+            
+    </title>
+    <link rel="stylesheet" href="{% static 'miapp/styles.css' %}">
+</head>
+<body>
+    <main>
+        {% block main %}
+            
+        {% endblock main %}
+    </main>
+
+    <footer>        
+        {% block footer %}
+            <small>&copy; Mi Aplicacion Django [2023] by NB</small>
+        {% endblock footer %}            
+    </footer>
+</body>
+</html>

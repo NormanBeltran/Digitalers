@@ -1,0 +1,27 @@
+{% extends "miapp/base.html" %}
+
+
+{% block main %}
+<h1>DTL Django Template Language</h1>
+<h2>Bienvenido al curso {{ nombre }}</h2>
+Ud esta cursando {{ cursos}} cursos
+<hr>
+El curso actual es <strong>{{ curso_actual.nombre }}</strong><br>
+Turno <strong>{{ curso_actual.turno }}</strong><br>
+Profesor <strong>{{ curso_actual.profesor }}</strong><br>
+<hr>
+El primer curso tomado fue {{ cursos_previos.0 }}<br>
+
+{% if cursos > 4   %}
+<h3>El alumno tomó todos los cursos previstos del año</h3>
+{% else %}
+<h3>El alumno tomó MENOS de los cursos del año lectivo</h3>
+{% endif %}
+
+<h4>Todos los cursos tomados son: </h4>
+<ul>
+    {% for curso in cursos_previos %}
+    <li>{{ curso }}</li>
+    {% endfor %}        
+</ul>
+{% endblock main %}
