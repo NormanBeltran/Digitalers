@@ -16,4 +16,7 @@ urlpatterns = [
     path('api_cursos/', views.cursos_json, name="api"),
     path('lista_aeropuertos/', views.aeropuertos, name="aeropuertos"),
     path('api_aeropuertos/', views.api_aeropuertos, name="api_aeropuertos"),
+
+    # Formulario
+    path('nuevo_curso/', views.nuevo_curso, name="nuevo_curso"),
 ]

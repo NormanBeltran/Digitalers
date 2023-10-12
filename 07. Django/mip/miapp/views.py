@@ -1,6 +1,9 @@
 from django.shortcuts import render
-from django.http import HttpResponse, JsonResponse, Http404
+from django.urls import reverse
+from django.http import HttpResponse, JsonResponse, Http404, HttpResponseRedirect
 import sqlite3
+from . import forms 
+
 
 # Create your views here.
 
@@ -132,3 +135,26 @@ def curso_nombre(request, nombre_curso):
     conn.close()
     ctx = {"curso": curso}
     return render(request, "miapp/un_curso.html", ctx)
+
+
+def nuevo_curso(request):
+    if request.method == "POST":
+        form = forms.FormularioCurso(request.POST)  
+        if form.is_valid():
+            # form.cleaned_data["nombre"]
+            conn = sqlite3.connect("cursos.db")
+            cursor = conn.cursor()
+            try:
+                cursor.execute("INSERT INTO cursos VALUES (?,?)", 
+                    (form.cleaned_data["nombre"], form.cleaned_data["inscriptos"]))
+            except:
+                print("Hubo un error al grabar el curso")                
+                
+            conn.commit()
+            conn.close()
+            return HttpResponseRedirect(reverse("cursos2"))  
+    else:
+        form = forms.FormularioCurso()
+
+    ctx = {"form": form}
+    return render(request, "miapp/nuevo_curso.html", ctx)
