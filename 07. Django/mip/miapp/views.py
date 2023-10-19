@@ -3,7 +3,7 @@ from django.urls import reverse
 from django.http import HttpResponse, JsonResponse, Http404, HttpResponseRedirect
 import sqlite3
 from . import forms 
-
+from .models import Curso, Profesor
 
 # Create your views here.
 
@@ -45,11 +45,12 @@ def cursos(request):
     return HttpResponse(html)
 
 def cursos_json(request):
-    conn = sqlite3.connect("cursos.db")
-    cursor = conn.cursor()
-    cursor.execute("SELECT nombre, inscriptos FROM cursos")
-    response = JsonResponse(cursor.fetchall(), safe=False )
-    conn.close()
+    # conn = sqlite3.connect("cursos.db")
+    # cursor = conn.cursor()
+    # cursor.execute("SELECT nombre, inscriptos FROM cursos")
+    # response = JsonResponse(cursor.fetchall(), safe=False )
+    # conn.close()
+    response = JsonResponse(list(Curso.objects.values()), safe=False )
     return response
 
 def aeropuertos(request):
@@ -115,25 +116,29 @@ def index4(request):
            }
     return render(request, "miapp/index.html", ctx)
 
-def cursos2(request):
-    conn = sqlite3.connect("cursos.db")
-    cursor = conn.cursor()
-    cursor.execute("SELECT nombre, inscriptos FROM cursos")
-    cursos = cursor.fetchall()
-    conn.close()
+def cursos2(request):     
+    cursos = Curso.objects.all()    
     ctx = {"cursos": cursos}
     return render(request, "miapp/cursos.html", ctx)
 
 def curso_nombre(request, nombre_curso):
-    conn = sqlite3.connect("cursos.db")
-    cursor = conn.cursor()
-    cursor.execute("SELECT nombre, inscriptos FROM cursos WHERE nombre=?", [nombre_curso])
-    curso = cursor.fetchone()
-    if curso is None:
+    # conn = sqlite3.connect("cursos.db")
+    # cursor = conn.cursor()
+    # cursor.execute("SELECT nombre, inscriptos FROM cursos WHERE nombre=?", [nombre_curso])
+    # curso = cursor.fetchone()
+    # if curso is None:
+    #     raise Http404
+    
+    # conn.close()
+    # ctx = {"curso": curso}
+
+    try:
+        curso = Curso.objects.get(nombre=nombre_curso)
+    except:
         raise Http404
     
-    conn.close()
     ctx = {"curso": curso}
+
     return render(request, "miapp/un_curso.html", ctx)
 
 
@@ -142,16 +147,22 @@ def nuevo_curso(request):
         form = forms.FormularioCurso(request.POST)  
         if form.is_valid():
             # form.cleaned_data["nombre"]
-            conn = sqlite3.connect("cursos.db")
-            cursor = conn.cursor()
-            try:
-                cursor.execute("INSERT INTO cursos VALUES (?,?)", 
-                    (form.cleaned_data["nombre"], form.cleaned_data["inscriptos"]))
-            except:
-                print("Hubo un error al grabar el curso")                
+            # conn = sqlite3.connect("cursos.db")
+            # cursor = conn.cursor()
+            # try:
+            #     cursor.execute("INSERT INTO cursos VALUES (?,?)", 
+            #         (form.cleaned_data["nombre"], form.cleaned_data["inscriptos"]))
+            # except:
+            #     print("Hubo un error al grabar el curso")                
                 
-            conn.commit()
-            conn.close()
+            # conn.commit()
+            # conn.close()
+
+            # Curso.objects.create(
+            #     nombre=form.cleaned_data["nombre"],
+            #     inscriptos=form.cleaned_data["inscriptos"]
+            # )
+            form.save()
             return HttpResponseRedirect(reverse("cursos2"))  
     else:
         form = forms.FormularioCurso()

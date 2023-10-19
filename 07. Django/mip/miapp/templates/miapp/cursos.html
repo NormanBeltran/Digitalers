@@ -7,7 +7,7 @@ Cursos desde BD
 
 {% block main %}    
 <img src="{% static 'miapp/django.png' %}" alt="" width="200px" height="150px">
-<h2>Detalle de todos los cursos de la BD</h2>
+<h2>Detalle de todos los cursos de la BD con ORM</h2>
 <table class="tabla-cursos">
     <thead>
         <tr>
@@ -15,13 +15,13 @@ Cursos desde BD
             <th>Inscriptos</th>
         </tr>
     </thead>
-    {% for nombre, inscriptos in cursos  %}
+    {% for curso in cursos  %}
     <tr>
         <td>
-            {{ nombre }}
+            {{ curso.nombre }}
         </td>
         <td>
-            {{ inscriptos }}
+            {{ curso.inscriptos }}
         </td>
     </tr>        
     {% endfor %}
