@@ -43,7 +43,7 @@ class Movie(models.Model):
     genders = models.ManyToManyField(Gender, verbose_name="Géneros")
     company = models.ForeignKey(Company, verbose_name="Compañía", on_delete=models.CASCADE)
     image = models.ImageField(upload_to="movies", null=True, blank=True, verbose_name="Cover")
-    premiere = models.SmallIntegerField(verbose_name="Año Estreno", null=False, blank=True)
+    premiere = models.SmallIntegerField(verbose_name="Año Estreno", null=False, blank=False)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 

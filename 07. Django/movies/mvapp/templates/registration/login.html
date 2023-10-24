@@ -1,0 +1,22 @@
+{%extends 'mvapp/base.html'%}
+{% load static %} 
+{%block title %}Login{% endblock %} 
+{%block content%}
+<main role="main" class="container">
+    <div class="row mb-5 mt-3">
+	    <form method="post" class="card" novalidate>
+	  	{% csrf_token %}
+	    <h2 class="text-center">Ingrese a su cuenta</h2>
+		{% for field in form %}
+	    		{{ field.label_tag }} 
+	        	{{ field }}
+	        	{% if field.errors %}
+	        		<small>{{ field.errors|striptags }}</small> 
+	        	{% endif %}
+		{% endfor %}
+		<br>
+		<input type="submit" value="Login" class="btn btn-primary full-width">
+	    </form>
+    </div>
+</main>
+{%endblock content%} 
