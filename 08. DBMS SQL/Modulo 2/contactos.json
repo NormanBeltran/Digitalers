@@ -1,0 +1,26 @@
+[
+  {
+    "BusinessEntityID": 1,
+    "FirstName": "Ken",
+    "LastName": "Sánchez",
+    "MiddleName": "J"
+  },
+  {
+    "BusinessEntityID": 2,
+    "FirstName": "Terri",
+    "LastName": "Duffy",
+    "MiddleName": "Lee"
+  },
+  {
+    "BusinessEntityID": 3,
+    "FirstName": "Roberto",
+    "LastName": "Tamburello",
+    "MiddleName": ""
+  },
+  {
+    "BusinessEntityID": 4,
+    "FirstName": "Jose",
+    "LastName": "Beltran",
+    "MiddleName": "Norman"
+  }
+]
